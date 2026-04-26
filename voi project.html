@@ -1,0 +1,1749 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Voice of India - Citizen Platform</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+    <style>
+        /* --- CSS STYLES --- */
+        
+         :root {
+            --primary-blue: #003366;
+            /* Professional/Govt feel */
+            --accent-saffron: #ff9933;
+            /* Indian Saffron */
+            --accent-green: #138808;
+            /* Indian Green */
+            --bg-white: #ffffff;
+            --bg-light: #f4f7f6;
+            --text-dark: #2d3436;
+            --transition: all 0.3s ease;
+            /* Citizen Verification root variables */
+            --bg-gray: #f0f2f5;
+            --white: #ffffff;
+            --border-round: 12px;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+        }
+        /* Header Container */
+        
+        .main-header {
+            background-color: var(--bg-white);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            position: sticky;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        /* Logo Branding */
+        
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            letter-spacing: -0.5px;
+        }
+        
+        .logo span {
+            color: var(--accent-saffron);
+            margin-left: 2px;
+        }
+        /* Desktop Navigation */
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 15px;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .nav-link {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            padding: 10px 18px;
+            border-radius: 6px;
+            transition: var(--transition);
+            cursor: pointer;
+            position: relative;
+        }
+        /* Hover & Active States */
+        
+        .nav-link:hover,
+        .nav-link.active {
+            background-color: rgba(0, 51, 102, 0.05);
+            color: var(--primary-blue);
+        }
+        
+        .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 5px;
+            left: 18px;
+            right: 18px;
+            height: 3px;
+            background-color: var(--accent-saffron);
+            border-radius: 2px;
+        }
+        /* Profile Button Style */
+        
+        .profile-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.4rem;
+            padding: 10px;
+            color: var(--primary-blue);
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .profile-btn:hover {
+            color: var(--accent-saffron);
+        }
+        /* Mobile Hamburger Button */
+        
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            padding: 10px;
+            border: none;
+            background: none;
+            gap: 5px;
+        }
+        
+        .bar {
+            width: 25px;
+            height: 3px;
+            background-color: var(--primary-blue);
+            border-radius: 2px;
+            transition: var(--transition);
+        }
+        /* Content Area */
+        
+        .content-area {
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 0 20px;
+            min-height: 60vh;
+        }
+        
+        .section-card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            display: none;
+            /* Hidden by default */
+            animation: fadeIn 0.5s ease;
+            overflow: hidden;
+            /* To contain the form header banner */
+        }
+        
+        .section-card.active-section {
+            display: block;
+            /* Show active section */
+        }
+        
+        .embedded-portal iframe {
+            width: 100%;
+            min-height: 1050px;
+            border: none;
+            border-radius: 16px;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+        }
+        /* Styling for the original sections */
+        
+        .standard-padding {
+            padding: 40px;
+        }
+        
+        h2 {
+            color: var(--primary-blue);
+            margin-top: 0;
+            border-bottom: 2px solid #eee;
+            padding-bottom: 15px;
+        }
+        
+        .contact-info p {
+            font-size: 1.1rem;
+            margin: 10px 0;
+        }
+        
+        .contact-icon {
+            color: var(--accent-saffron);
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        /* --- VERIFICATION FORM SPECIFIC CSS --- */
+        
+        .header-banner {
+            background: var(--primary-blue);
+            color: white;
+            padding: 35px 20px;
+            text-align: center;
+        }
+        
+        .header-banner i {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+            color: var(--accent-saffron);
+        }
+        
+        .header-banner h2 {
+            margin: 0;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+            color: white;
+            border-bottom: none;
+        }
+        
+        .header-banner p {
+            opacity: 0.9;
+            font-size: 0.95rem;
+            margin-top: 8px;
+            color: white;
+        }
+        
+        .info-form {
+            padding: 40px;
+        }
+        
+        .section-title {
+            font-size: 1.1rem;
+            color: var(--primary-blue);
+            border-bottom: 2px solid var(--accent-saffron);
+            padding-bottom: 5px;
+            margin-bottom: 25px;
+            display: inline-block;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        
+        .grid-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 25px;
+        }
+        
+        .form-field {
+            margin-bottom: 5px;
+        }
+        
+        .full-width {
+            grid-column: span 2;
+        }
+        
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 0.9rem;
+            color: #444;
+        }
+        
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #ccd1d9;
+            border-radius: 8px;
+            box-sizing: border-box;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background-color: #fdfdfd;
+        }
+        
+        input:focus,
+        select:focus {
+            border-color: var(--primary-blue);
+            outline: none;
+            background-color: #fff;
+            box-shadow: 0 0 0 3px rgba(0, 51, 102, 0.1);
+        }
+        
+        .submit-btn {
+            width: 100%;
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 18px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .submit-btn:hover {
+            background: #002244;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        
+        .privacy-note {
+            font-size: 0.85rem;
+            color: #6c757d;
+            text-align: center;
+            margin-top: 25px;
+            line-height: 1.4;
+        }
+        /* --- PAYMENT SECTION CSS --- */
+        
+        .amount-options {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .amount-btn {
+            flex: 1;
+            padding: 12px;
+            border: 2px solid #ccd1d9;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            background: var(--bg-white);
+        }
+        
+        .amount-btn:hover {
+            border-color: var(--primary-blue);
+        }
+        
+        .amount-btn.active {
+            background: var(--primary-blue);
+            color: white;
+            border-color: var(--primary-blue);
+        }
+        
+        .payment-methods {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        
+        .method-btn {
+            flex: 1;
+            padding: 15px;
+            border: 2px solid #ccd1d9;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: var(--bg-white);
+        }
+        
+        .method-btn.active {
+            border-color: var(--accent-saffron);
+            background: rgba(255, 153, 51, 0.05);
+            color: var(--primary-blue);
+        }
+        
+        .payment-details {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+        
+        .payment-details.active {
+            display: grid;
+        }
+        /* --- ADMIN DASHBOARD CSS --- */
+        
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 0.9rem;
+        }
+        
+        .admin-table th,
+        .admin-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+        
+        .admin-table th {
+            background-color: var(--primary-blue);
+            color: white;
+        }
+        
+        .admin-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        /* --- SUCCESS ANIMATION CSS --- */
+        
+        .success-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            backdrop-filter: blur(5px);
+        }
+        
+        .success-card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+            transform: scale(0.7);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        
+        .success-overlay.active {
+            display: flex;
+        }
+        
+        .success-overlay.active .success-card {
+            transform: scale(1);
+            opacity: 1;
+        }
+        
+        .checkmark-circle {
+            width: 80px;
+            height: 80px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 0 auto 20px;
+            color: white;
+            font-size: 2.5rem;
+            animation: bounce 1s infinite alternate;
+        }
+        
+        .close-success-btn {
+            background: var(--primary-blue);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 8px;
+            margin-top: 20px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        @keyframes bounce {
+            from {
+                transform: translateY(0);
+            }
+            to {
+                transform: translateY(-10px);
+            }
+        }
+        /* RESPONSIVE DESIGN (Mobile) */
+        
+        @media (max-width: 768px) {
+            .hamburger {
+                display: flex;
+            }
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 72px;
+                flex-direction: column;
+                background-color: var(--bg-white);
+                width: 100%;
+                text-align: center;
+                transition: 0.4s;
+                box-shadow: 0 10px 10px rgba(0, 0, 0, 0.05);
+                padding: 20px 0;
+                gap: 5px;
+            }
+            .nav-menu.active {
+                left: 0;
+            }
+            .nav-link {
+                display: block;
+                width: 80%;
+                margin: 5px auto;
+                font-size: 1.1rem;
+            }
+            .nav-link.active::after {
+                display: none;
+            }
+            .nav-link.active {
+                background-color: #f0f4f8;
+                border-left: 4px solid var(--accent-saffron);
+            }
+            /* Hamburger Animation */
+            .hamburger.active .bar:nth-child(2) {
+                opacity: 0;
+            }
+            .hamburger.active .bar:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+            .hamburger.active .bar:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+            .section-card {
+                padding: 0;
+            }
+            .standard-padding {
+                padding: 25px;
+            }
+            .grid-layout {
+                grid-template-columns: 1fr;
+            }
+            .full-width {
+                grid-column: span 1;
+            }
+            .info-form {
+                padding: 25px;
+            }
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        /* --- DARK MODE STYLES --- */
+        
+        body[data-theme="dark"] {
+            background-color: #121212 !important;
+            color: #e0e0e0 !important;
+        }
+        
+        [data-theme="dark"] {
+            --bg-light: #121212;
+            --bg-white: #1e1e1e;
+            --text-dark: #e0e0e0;
+            --bg-gray: #2d2d2d;
+            --primary-blue: #66b3ff;
+        }
+        
+        [data-theme="dark"] .section-card,
+        [data-theme="dark"] .main-header,
+        [data-theme="dark"] .success-card {
+            background-color: var(--bg-white);
+            border: 1px solid #333;
+        }
+        
+        [data-theme="dark"] input,
+        [data-theme="dark"] select,
+        [data-theme="dark"] textarea {
+            background-color: var(--bg-gray);
+            color: var(--text-dark);
+            border-color: #444;
+        }
+        
+        [data-theme="dark"] h2,
+        [data-theme="dark"] .section-title {
+            color: var(--primary-blue);
+        }
+        
+        [data-theme="dark"] .payment-details,
+        [data-theme="dark"] .amount-btn,
+        [data-theme="dark"] .method-btn {
+            background-color: var(--bg-gray);
+            border-color: #444;
+            color: var(--text-dark);
+        }
+        
+        [data-theme="dark"] .nav-menu {
+            background-color: var(--bg-white);
+        }
+        
+        [data-theme="dark"] p {
+            color: #b0b0b0;
+        }
+        
+        [data-theme="dark"] .payment-details p,
+        [data-theme="dark"] .contact-info p,
+        [data-theme="dark"] label,
+        [data-theme="dark"] .privacy-note {
+            color: #b0b0b0 !important;
+        }
+        
+        [data-theme="dark"] .admin-table th {
+            background-color: #2d2d2d;
+            border-color: #444;
+            color: #e0e0e0;
+        }
+        
+        [data-theme="dark"] .admin-table td {
+            border-color: #444;
+            color: #e0e0e0;
+        }
+        
+        [data-theme="dark"] .admin-table tr:nth-child(even) {
+            background-color: #1e1e1e;
+        }
+        
+        [data-theme="dark"] .nav-link {
+            color: var(--text-dark);
+        }
+        
+        [data-theme="dark"] .nav-link:hover,
+        [data-theme="dark"] .nav-link.active {
+            background-color: #2d2d2d;
+            color: var(--primary-blue);
+        }
+        
+        [data-theme="dark"] .update-box {
+            background-color: #2d2d2d !important;
+            color: #e0e0e0;
+            border-left-color: var(--primary-blue) !important;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="main-header">
+        <nav class="navbar">
+            <a href="#" class="logo">Voice of<span>India</span></a>
+
+            <ul class="nav-menu" id="nav-menu">
+                <li><a href="#" class="nav-link active" data-target="home">Home</a></li>
+                <li><a href="#" class="nav-link" data-target="about">About</a></li>
+                <li><a href="#" class="nav-link" data-target="contact">Contact</a></li>
+                <li><a href="#" class="nav-link" data-target="payment">Donate</a></li>
+                <li><a href="#" class="nav-link" data-target="official-login">Official Login</a></li>
+                <li><a href="#" class="nav-link" data-target="whistleblower" style="color: #e53e3e; font-weight: bold;"><i class="fas fa-user-secret"></i> Whistleblower</a></li>
+            </ul>
+
+            <div style="display: flex; align-items: center; gap: 5px;">
+                <button class="profile-btn" id="darkModeToggle" aria-label="Toggle Dark Mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="profile-btn" data-target="profile-section" aria-label="User Profile">
+                    <i class="fas fa-user-circle"></i>
+                </button>
+
+                <button class="hamburger" id="hamburger" aria-label="Toggle Navigation">
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                    <span class="bar"></span>
+                </button>
+            </div>
+        </nav>
+    </header>
+
+    <main class="content-area">
+
+        <div id="home" class="section-card standard-padding active-section">
+            <h2>Welcome to Voice of India</h2>
+            <p>Empowering citizens to speak up, connect with governance, and build a better nation.</p>
+            <p>Use the navigation menu to learn more about our mission or get in touch with our support team.</p>
+            <div class="update-box" style="margin-top:20px; background: #eef2f5; padding: 15px; border-left: 4px solid var(--primary-blue);">
+                <strong>Latest Update:</strong> New grievance portal launching soon in Odisha.
+            </div>
+        </div>
+
+        <div id="about" class="section-card standard-padding">
+            <h2>About Us</h2>
+            <p>Voice of India is a digital platform dedicated to bridging the gap between citizens and government officials.</p>
+            <p>We believe in transparency, swift action, and the power of the common man. Our platform allows you to raise issues, track progress, and communicate directly with local representatives.</p>
+        </div>
+
+        <div id="contact" class="section-card standard-padding">
+            <h2>Contact Support</h2>
+            <div class="contact-info">
+                <p><span class="contact-icon">📧</span> <strong>Email:</strong> contact@voiceofindia.in</p>
+                <p><span class="contact-icon">📞</span> <strong>Helpline:</strong> +91 8658723886</p>
+                <p><span class="contact-icon">📍</span> <strong>Office:</strong> Cuttack, Odisha, India</p>
+            </div>
+            <p style="font-size: 0.9rem; color: #666; margin-top: 20px;">
+                Our support team is available Mon-Fri, 9:00 AM to 6:00 PM.
+            </p>
+        </div>
+
+        <div id="profile-section" class="section-card">
+            <div class="header-banner">
+                <i class="fas fa-id-card"></i>
+                <h2>Citizen Verification</h2>
+                <p>Complete your profile to ensure your grievances reach the correct local department.</p>
+            </div>
+
+            <form class="info-form" id="masterProfileForm">
+                <span class="section-title">Personal Details</span>
+                <div class="grid-layout">
+                    <div class="form-field full-width">
+                        <label>Full Name (as per Aadhar/ID)</label>
+                        <input type="text" id="fullName" placeholder="e.g. Rajesh Kumar" required>
+                    </div>
+
+                    <div class="form-field">
+                        <label>Aadhar (Last 4 Digits)</label>
+                        <input type="password" id="aadharNum" maxlength="4" pattern="\d{4}" placeholder="XXXX" required title="Only last 4 digits allowed">
+                    </div>
+
+                    <div class="form-field">
+                        <label>Phone Number</label>
+                        <input type="tel" id="phoneNum" placeholder="+91" required>
+                    </div>
+                </div>
+
+                <br>
+                <span class="section-title">Jurisdiction Details</span>
+                <div class="grid-layout">
+                    <div class="form-field">
+                        <label>State / Union Territory</label>
+                        <select id="state-select" onchange="updateDistricts()" required>
+                            <option value="" disabled selected>Select State/UT</option>
+                            <optgroup label="States">
+                                <option value="Odisha">Odisha</option>
+                                <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                <option value="West Bengal">West Bengal</option>
+                                <option value="Chhattisgarh">Chhattisgarh</option>
+                                <option value="Bihar">Bihar</option>
+                                <option value="Jharkhand">Jharkhand</option>
+                                <option value="Maharashtra">Maharashtra</option>
+                                <option value="Tamil Nadu">Tamil Nadu</option>
+                                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                <option value="Rajasthan">Rajasthan</option>
+                                <option value="Madhya Pradesh">Madhya Pradesh</option>
+                                <option value="Punjab">Punjab</option>
+                                <option value="Himachal Pradesh">Himachal Pradesh</option>
+                                <option value="Uttarakhand">Uttarakhand</option>
+                                <option value="Assam">Assam</option>
+                                <option value="Tripura">Tripura</option>
+                                <option value="Meghalaya">Meghalaya</option>
+                                <option value="Manipur">Manipur</option>
+                                <option value="Mizoram">Mizoram</option>
+                                <option value="Nagaland">Nagaland</option>
+                                <option value="Sikkim">Sikkim</option>
+                                <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                <option value="Goa">Goa</option>
+                            </optgroup>
+                            <optgroup label="Union Territories">
+                                <option value="Jammu & Kashmir">Jammu & Kashmir</option>
+                                <option value="Ladakh">Ladakh</option>
+                                <option value="Delhi">Delhi</option>
+                                <option value="Andaman & Nicobar">Andaman & Nicobar</option>
+                                <option value="Chandigarh">Chandigarh</option>
+                                <option value="Dadra & Nagar Haveli">Dadra & Nagar Haveli and Daman & Diu</option>
+                                <option value="Lakshadweep">Lakshadweep</option>
+                                <option value="Puducherry">Puducherry</option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <div class="form-field">
+                        <label>District</label>
+                        <select id="district-select" disabled required>
+                            <option value="">Choose State first</option>
+                        </select>
+                    </div>
+
+                    <div class="form-field full-width">
+                        <label>Full Address (House No, Street, Ward)</label>
+                        <textarea id="fullAddress" rows="2" placeholder="Enter your residential address" required></textarea>
+                    </div>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    Save & Verify Identity <i class="fas fa-shield-check"></i>
+                </button>
+
+                <p class="privacy-note">
+                    <i class="fas fa-lock"></i> All information is encrypted. Voice of India acts as a secure mediator between you and government resolution officers.
+                </p>
+            </form>
+        </div>
+
+        <div id="official-login" class="section-card">
+            <div class="header-banner" style="background: #1a202c;">
+                <i class="fas fa-user-shield"></i>
+                <h2>Official Portal</h2>
+                <p>Secure access for government officials and authorized personnel only.</p>
+            </div>
+            <div class="standard-padding">
+                <div id="admin-login-box" class="info-form" style="padding: 0;">
+                    <div class="form-field">
+                        <label>Admin Password</label>
+                        <input type="password" id="adminPassword" placeholder="Enter administrative password">
+                    </div>
+                    <button type="button" class="submit-btn" id="adminLoginBtn" style="background: #1a202c;">
+                        Access Database <i class="fas fa-lock-open"></i>
+                    </button>
+                    <p id="admin-error" style="color: #e53e3e; display: none; margin-top: 15px; font-weight: 600;"><i class="fas fa-exclamation-triangle"></i> Incorrect Password. Access Denied.</p>
+                </div>
+                <div id="admin-dashboard" style="display: none;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 15px; margin-bottom: 15px;">
+                        <h3 style="margin: 0; color: var(--primary-blue);">Citizen Database (Cloud Synced)</h3>
+                        <div>
+                            <button id="exportCitizensBtn" style="padding: 8px 15px; background: #138808; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; margin-right: 10px;"><i class="fas fa-file-csv"></i> Export CSV</button>
+                            <button id="refreshDataBtn" style="padding: 8px 15px; background: var(--accent-saffron); color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;"><i class="fas fa-sync-alt"></i> Refresh</button>
+                        </div>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table class="admin-table" id="citizensTable">
+                            <thead>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Aadhar</th>
+                                    <th>Phone</th>
+                                    <th>State</th>
+                                    <th>District</th>
+                                    <th>Address</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-table-body">
+                                <!-- Cloud data populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 15px; margin: 30px 0 15px 0;">
+                        <h3 style="margin: 0; color: var(--primary-blue);">Live Grievances</h3>
+                        <button id="exportGrievancesBtn" style="padding: 8px 15px; background: #138808; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold;"><i class="fas fa-file-csv"></i> Export CSV</button>
+                    </div>
+                    <div style="overflow-x: auto;">
+                        <table class="admin-table" id="grievancesTable">
+                            <thead>
+                                <tr>
+                                    <th>Tracking ID</th>
+                                    <th>Department</th>
+                                    <th>Subject</th>
+                                    <th>Priority</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody id="admin-grievance-body">
+                                <!-- Cloud data populated here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="payment" class="section-card">
+            <div class="header-banner">
+                <i class="fas fa-rupee-sign"></i>
+                <h2>Support Our Initiative</h2>
+                <p>Your contribution helps us build a stronger, more transparent nation.</p>
+            </div>
+
+            <form class="info-form" id="paymentForm">
+                <span class="section-title">Select Amount</span>
+                <div class="amount-options">
+                    <div class="amount-btn active" data-amount="500">₹500</div>
+                    <div class="amount-btn" data-amount="1000">₹1000</div>
+                    <div class="amount-btn" data-amount="5000">₹5000</div>
+                    <div class="amount-btn custom-amt" data-amount="custom">Custom</div>
+                </div>
+                <div class="form-field full-width" id="customAmountContainer" style="display: none; margin-bottom: 20px;">
+                    <label>Enter Custom Amount (₹)</label>
+                    <input type="number" id="customAmountInput" placeholder="Enter Amount (e.g. 50)">
+                </div>
+
+                <span class="section-title">Payment Method</span>
+                <div class="payment-methods">
+                    <div class="method-btn active" data-method="upi"><i class="fas fa-qrcode"></i> UPI Apps</div>
+                    <div class="method-btn" data-method="netbanking"><i class="fas fa-university"></i> Net Banking</div>
+                    <div class="method-btn" data-method="card"><i class="fas fa-credit-card"></i> Credit/Debit Card</div>
+                    <div class="method-btn" data-method="wallet"><i class="fas fa-wallet"></i> Wallets</div>
+                </div>
+
+                <div id="upi-details" class="payment-details">
+                    <p style="font-size: 0.9rem; color: #444; margin: 0;">You will be securely redirected to your default UPI app (Google Pay, PhonePe, Paytm, etc.) to complete the payment.</p>
+                </div>
+
+                <div id="netbanking-details" class="payment-details" style="display: none;">
+                    <label>Select Your Bank</label>
+                    <select id="bank-select">
+                        <option value="https://retail.onlinesbi.sbi/retail/login.htm">State Bank of India (SBI)</option>
+                        <option value="https://netbanking.hdfcbank.com/netbanking/">HDFC Bank</option>
+                        <option value="https://buy.icicibank.com/uc/UsermcaLogin.jsp">ICICI Bank</option>
+                        <option value="https://retail.axisbank.co.in/">Axis Bank</option>
+                        <option value="https://www.kotak.com/">Kotak Mahindra Bank</option>
+                    </select>
+                    <p style="font-size: 0.85rem; color: #666; margin: 10px 0 0 0;">You will be securely redirected to your bank's original portal.</p>
+                </div>
+
+                <div id="card-details" class="payment-details" style="display: none;">
+                    <p style="font-size: 0.9rem; color: #444; margin: 0;">You will be redirected to our secure Card Processing Gateway to enter your Visa, Mastercard, or RuPay details.</p>
+                </div>
+
+                <div id="wallet-details" class="payment-details" style="display: none;">
+                    <label>Select Wallet</label>
+                    <select id="wallet-select">
+                        <option value="https://paytm.com/">Paytm</option>
+                        <option value="https://www.amazon.in/amazonpay/home">Amazon Pay</option>
+                        <option value="https://www.mobikwik.com/">MobiKwik</option>
+                    </select>
+                    <p style="font-size: 0.85rem; color: #666; margin: 10px 0 0 0;">You will be redirected to the selected wallet's official website.</p>
+                </div>
+
+                <button type="submit" class="submit-btn" id="payBtn">
+                    Proceed to Pay ₹500 <i class="fas fa-arrow-right"></i>
+                </button>
+
+                <p class="privacy-note">
+                    <i class="fas fa-lock"></i> 100% Secure Checkout powered by Voice of India Payments.
+                </p>
+            </form>
+        </div>
+
+        <div id="whistleblower" class="section-card">
+            <div class="header-banner" style="background: #1a1a1a;">
+                <i class="fas fa-user-secret" style="color: #ff4757;"></i>
+                <h2>Anonymous Whistleblower</h2>
+                <p>Report corruption, illegal activities, or negligence securely and 100% anonymously.</p>
+            </div>
+            <div class="embedded-portal">
+                <iframe src="New File.html" title="Whistleblower Portal" loading="lazy"></iframe>
+            </div>
+        </div>
+
+    </main>
+
+    <div class="success-overlay" id="successOverlay">
+        <div class="success-card">
+            <div class="checkmark-circle">
+                <i class="fas fa-check"></i>
+            </div>
+            <h2 style="border:none;">Verification Success!</h2>
+            <p>Your citizen profile has been successfully verified. You are now part of the Voice of India network.</p>
+            <button class="close-success-btn" onclick="closeSuccessModal()">Continue to Dashboard</button>
+        </div>
+    </div>
+
+    <script>
+        /* --- JAVASCRIPT LOGIC --- */
+
+        const hamburger = document.getElementById("hamburger");
+        const navMenu = document.getElementById("nav-menu");
+        const navLinks = document.querySelectorAll(".nav-link, .profile-btn");
+        const sections = document.querySelectorAll(".section-card");
+        const successOverlay = document.getElementById("successOverlay");
+
+        // --- DARK MODE LOGIC ---
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        const body = document.body;
+
+        if (localStorage.getItem('theme') === 'dark') {
+            body.setAttribute('data-theme', 'dark');
+            darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        }
+
+        darkModeToggle.addEventListener('click', () => {
+            const isDark = body.getAttribute('data-theme') === 'dark';
+            const newTheme = isDark ? 'light' : 'dark';
+
+            if (isDark) {
+                body.removeAttribute('data-theme');
+                localStorage.setItem('theme', 'light');
+                darkModeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+            } else {
+                body.setAttribute('data-theme', 'dark');
+                localStorage.setItem('theme', 'dark');
+                darkModeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+            }
+
+            // Notify iframe
+            const iframe = document.querySelector('iframe');
+            if (iframe && iframe.contentWindow) {
+                iframe.contentWindow.postMessage({
+                    theme: newTheme
+                }, '*');
+            }
+        });
+
+        // Toggle mobile menu
+        hamburger.addEventListener("click", () => {
+            hamburger.classList.toggle("active");
+            navMenu.classList.toggle("active");
+        });
+
+        // Handle Page Switching
+        navLinks.forEach(link => {
+            link.addEventListener("click", (e) => {
+                e.preventDefault();
+
+                // 1. Remove active class from all links
+                navLinks.forEach(nav => nav.classList.remove("active"));
+
+                // 2. Add active class to clicked link
+                link.classList.add("active");
+
+                // 3. Hide all content sections
+                sections.forEach(section => section.classList.remove("active-section"));
+
+                // 4. Show the specific target section
+                const targetId = link.getAttribute("data-target");
+                document.getElementById(targetId).classList.add("active-section");
+
+                // 5. Close mobile menu if open
+                hamburger.classList.remove("active");
+                navMenu.classList.remove("active");
+            });
+        });
+
+        // Comprehensive District Mapping
+        const districtData = {
+            "Odisha": ["Angul", "Balangir", "Balasore", "Bargarh", "Bhadrak", "Boudh", "Cuttack", "Deogarh", "Dhenkanal", "Gajapati", "Ganjam", "Jagatsinghpur", "Jajpur", "Jharsuguda", "Kalahandi", "Kandhamal", "Kendrapara", "Kendujhar", "Khordha", "Koraput", "Malkangiri", "Mayurbhanj", "Nabarangpur", "Nayagarh", "Nuapada", "Puri", "Rayagada", "Sambalpur", "Subarnapur", "Sundargarh"],
+            "Andhra Pradesh": ["Alluri Sitharama Raju", "Anakapalli", "Anantapur", "Annamayya", "Bapatla", "Chittoor", "Dr BR Ambedkar Konaseema", "East Godavari", "Eluru", "Guntur", "Kakinada", "Krishna", "Kurnool", "Nandyal", "NTR", "Palnadu", "Parvathipuram Manyam", "Prakasam", "SPSR Nellore", "Sri Sathya Sai", "Srikakulam", "Tirupati", "Visakhapatnam", "Vizianagaram", "West Godavari", "YSR Kadapa"],
+            "West Bengal": ["Alipurduar", "Bankura", "Birbhum", "Cooch Behar", "Dakshin Dinajpur", "Darjeeling", "Hooghly", "Howrah", "Jalpaiguri", "Jhargram", "Kalimpong", "Kolkata", "Malda", "Murshidabad", "Nadia", "North 24 Parganas", "Paschim Bardhaman", "Paschim Medinipur", "Purba Bardhaman", "Purba Medinipur", "Purulia", "South 24 Parganas", "Uttar Dinajpur"],
+            "Chhattisgarh": ["Balod", "Baloda Bazar", "Balrampur-Ramanujganj", "Bastar", "Bemetara", "Bijapur", "Bilaspur", "Dantewada", "Dhamtari", "Durg", "Gariaband", "Gaurela-Pendra-Marwahi", "Janjgir-Champa", "Jashpur", "Kabirdham", "Kanker", "Khairagarh-Chhuikhadan-Gandai", "Kondagaon", "Korba", "Koriya", "Mahasamund", "Manendragarh-Chirmiri-Bharatpur", "Mohla-Manpur-Ambagarh Chowki", "Mungeli", "Narayanpur", "Raigarh", "Raipur", "Rajnandgaon", "Sakti", "Sarangarh-Bilaigarh", "Sukma", "Surajpur", "Surguja"],
+            "Bihar": ["Araria", "Arwal", "Aurangabad", "Banka", "Begusarai", "Bhagalpur", "Bhojpur", "Buxar", "Darbhanga", "East Champaran", "Gaya", "Gopalganj", "Jamui", "Jehanabad", "Kaimur", "Katihar", "Khagaria", "Kishanganj", "Lakhisarai", "Madhepura", "Madhubani", "Munger", "Muzaffarpur", "Nalanda", "Nawada", "Patna", "Purnia", "Rohtas", "Saharsa", "Samastipur", "Saran", "Sheikhpura", "Sheohar", "Sitamarhi", "Siwan", "Supaul", "Vaishali", "West Champaran"],
+            "Jharkhand": ["Bokaro", "Chatra", "Deoghar", "Dhanbad", "Dumka", "East Singhbhum", "Garhwa", "Giridih", "Godda", "Gumla", "Hazaribagh", "Jamtara", "Khunti", "Koderma", "Latehar", "Lohardaga", "Pakur", "Palamu", "Ramgarh", "Ranchi", "Sahebganj", "Seraikela-Kharsawan", "Simdega", "West Singhbhum"],
+            "Maharashtra": ["Ahmednagar", "Akola", "Amravati", "Aurangabad", "Beed", "Bhandara", "Buldhana", "Chandrapur", "Dhule", "Gadchiroli", "Gondia", "Hingoli", "Jalgaon", "Jalna", "Kolhapur", "Latur", "Mumbai City", "Mumbai Suburban", "Nagpur", "Nanded", "Nandurbar", "Nashik", "Osmanabad", "Palghar", "Parbhani", "Pune", "Raigad", "Ratnagiri", "Sangli", "Satara", "Sindhudurg", "Solapur", "Thane", "Wardha", "Washim", "Yavatmal"],
+            "Tamil Nadu": ["Ariyalur", "Chengalpattu", "Chennai", "Coimbatore", "Cuddalore", "Dharmapuri", "Dindigul", "Erode", "Kallakurichi", "Kanchipuram", "Kanyakumari", "Karur", "Krishnagiri", "Madurai", "Mayiladuthurai", "Nagapattinam", "Namakkal", "Nilgiris", "Perambalur", "Pudukkottai", "Ramanathapuram", "Ranipet", "Salem", "Sivaganga", "Tenkasi", "Thanjavur", "Theni", "Thiruvallur", "Thiruvarur", "Thoothukudi", "Tiruchirappalli", "Tirunelveli", "Tirupathur", "Tiruppur", "Tiruvannamalai", "Vellore", "Viluppuram", "Virudhunagar"],
+            "Uttar Pradesh": ["Agra", "Aligarh", "Ambedkar Nagar", "Amethi", "Amroha", "Auraiya", "Ayodhya", "Azamgarh", "Baghpat", "Bahraich", "Ballia", "Balrampur", "Banda", "Barabanki", "Bareilly", "Basti", "Bhadohi", "Bijnor", "Budaun", "Bulandshahr", "Chandauli", "Chitrakoot", "Deoria", "Etah", "Etawah", "Farrukhabad", "Fatehpur", "Firozabad", "Gautam Buddha Nagar", "Ghaziabad", "Ghazipur", "Gonda", "Gorakhpur", "Hamirpur", "Hapur", "Hardoi", "Hathras", "Jalaun", "Jaunpur", "Jhansi", "Kannauj", "Kanpur Dehat", "Kanpur Nagar", "Kasganj", "Kaushambi", "Kheri", "Kushinagar", "Lalitpur", "Lucknow", "Maharajganj", "Mahoba", "Mainpuri", "Mathura", "Mau", "Meerut", "Mirzapur", "Moradabad", "Muzaffarnagar", "Pilibhit", "Pratapgarh", "Prayagraj", "Rae Bareli", "Rampur", "Saharanpur", "Sambhal", "Sant Kabir Nagar", "Shahjahanpur", "Shamli", "Shravasti", "Siddharthnagar", "Sitapur", "Sonbhadra", "Sultanpur", "Unnao", "Varanasi"],
+            "Rajasthan": ["Ajmer", "Alwar", "Anupgarh", "Balotra", "Banswara", "Baran", "Barmer", "Beawar", "Bharatpur", "Bhilwara", "Bikaner", "Bundi", "Chittorgarh", "Churu", "Dausa", "Deeg", "Dholpur", "Didwana-Kuchaman", "Dungarpur", "Gangapur City", "Hanumangarh", "Jaipur", "Jaisalmer", "Jalore", "Jhalawar", "Jhunjhunu", "Jodhpur", "Karauli", "Kekri", "Khairthal-Tijara", "Kota", "Kotputli-Behror", "Sikar"],
+            "Madhya Pradesh": ["Agar Malwa", "Alirajpur", "Anuppur", "Ashoknagar", "Balaghat", "Barwani", "Betul", "Bhind", "Bhopal", "Burhanpur", "Chhatarpur", "Chhindwara", "Damoh", "Datia", "Dewas", "Dhar", "Dindori", "Guna", "Gwalior", "Harda", "Indore", "Jabalpur", "Jhabua", "Katni", "Khandwa", "Khargone", "Maihar", "Mandla", "Mandsaur", "Morena", "Narsinghpur", "Neemuch", "Niwari", "Panna", "Raisen", "Rajgarh", "Ratlam", "Rewa", "Sagar", "Satna", "Sehore", "Seoni", "Shahdol", "Shajapur", "Sheopur", "Shivpuri", "Sidhi", "Singrauli", "Tikamgarh", "Ujjain", "Umaria", "Vidisha", "Pandhurna"],
+            "Punjab": ["Amritsar", "Barnala", "Bathinda", "Faridkot", "Fatehgarh Sahib", "Fazilka", "Ferozepur", "Gurdaspur", "Hoshiarpur", "Jalandhar", "Kapurthala", "Ludhiana", "Malerkotla", "Mansa", "Moga", "Pathankot", "Patiala", "Rupnagar", "SAS Nagar", "Sangrur", "Shaheed Bhagat Singh Nagar", "Sri Muktsar Sahib", "Tarn Taran"],
+            "Himachal Pradesh": ["Bilaspur", "Chamba", "Hamirpur", "Kangra", "Kinnaur", "Kullu", "Lahaul and Spiti", "Mandi", "Shimla", "Sirmaur", "Solan", "Una"],
+            "Uttarakhand": ["Almora", "Bageshwar", "Chamoli", "Champawat", "Dehradun", "Haridwar", "Nainital", "Pauri Garhwal", "Pithoragarh", "Rudraprayag", "Tehri Garhwal", "Udham Singh Nagar", "Uttarkashi"],
+            "Assam": ["Bajali", "Baksa", "Barpeta", "Biswanath", "Bongaigaon", "Cachar", "Charaideo", "Chirang", "Darrang", "Dhemaji", "Dhubri", "Dibrugarh", "Dima Hasao", "Goalpara", "Golaghat", "Hailakandi", "Hojai", "Jorhat", "Kamrup", "Kamrup Metro", "Karbi Anglong", "Karimganj", "Kokrajhar", "Lakhimpur", "Majuli", "Morigaon", "Nagaon", "Nalbari", "Sivasagar", "Sonitpur", "South Salmara-Mankachar", "Tamulpur", "Tinsukia", "Udalguri", "West Karbi Anglong"],
+            "Tripura": ["Dhalai", "Gomati", "Khowai", "North Tripura", "Sepahijala", "South Tripura", "Unakoti", "West Tripura"],
+            "Meghalaya": ["East Garo Hills", "East Jaintia Hills", "East Khasi Hills", "North Garo Hills", "Ri Bhoi", "South Garo Hills", "South West Garo Hills", "South West Khasi Hills", "West Garo Hills", "West Jaintia Hills", "West Khasi Hills", "Eastern West Khasi Hills"],
+            "Manipur": ["Bishnupur", "Chandel", "Churachandpur", "Imphal East", "Imphal West", "Jiribam", "Kakching", "Kamjong", "Kangpokpi", "Noney", "Pherzawl", "Senapati", "Tamenglong", "Tengnoupal", "Thoubal", "Ukhrul"],
+            "Mizoram": ["Aizawl", "Champhai", "Hnahthial", "Khawzawl", "Kolasib", "Lawngtlai", "Lunglei", "Mamit", "Saiha", "Saitual", "Serchhip"],
+            "Nagaland": ["Chumoukedima", "Dimapur", "Kiphire", "Kohima", "Longleng", "Mokokchung", "Mon", "Niuland", "Noklak", "Peren", "Phek", "Shamator", "Tseminyu", "Tuensang", "Wokha", "Zunheboto"],
+            "Sikkim": ["Gangtok", "Gyalshing", "Mangan", "Namchi", "Pakyong", "Soreng"],
+            "Arunachal Pradesh": ["Anjaw", "Bichom", "Changlang", "Dibang Valley", "East Kameng", "East Siang", "Kamle", "Kra Daadi", "Kurung Kumey", "Lepa Rada", "Lohit", "Longding", "Lower Dibang Valley", "Lower Siang", "Lower Subansiri", "Namsai", "Pakke-Kessang", "Papum Pare", "Shi Yomi", "Siang", "Tawang", "Tirap", "Upper Siang", "Upper Subansiri", "West Kameng", "West Siang"],
+            "Goa": ["North Goa", "South Goa"],
+            "Jammu & Kashmir": ["Anantnag", "Bandipora", "Baramulla", "Budgam", "Doda", "Ganderbal", "Jammu", "Kathua", "Kishtwar", "Kulgam", "Kupwara", "Poonch", "Pulwama", "Rajouri", "Ramban", "Reasi", "Samba", "Shopian", "Srinagar", "Udhampur"],
+            "Ladakh": ["Kargil", "Leh"],
+            "Delhi": ["Central Delhi", "East Delhi", "New Delhi", "North Delhi", "North East Delhi", "North West Delhi", "Shahdara", "South Delhi", "South East Delhi", "South West Delhi", "West Delhi"],
+            "Andaman & Nicobar": ["Nicobar", "North and Middle Andaman", "South Andaman"],
+            "Chandigarh": ["Chandigarh"],
+            "Dadra & Nagar Haveli": ["Dadra and Nagar Haveli", "Daman", "Diu"],
+            "Lakshadweep": ["Lakshadweep"],
+            "Puducherry": ["Karaikal", "Mahe", "Puducherry", "Yanam"]
+        };
+
+        function updateDistricts() {
+            const stateSelect = document.getElementById("state-select");
+            const districtSelect = document.getElementById("district-select");
+            const selectedState = stateSelect.value;
+
+            // Clear existing options
+            districtSelect.innerHTML = '<option value="">Searching Districts...</option>';
+
+            if (selectedState && districtData[selectedState]) {
+                setTimeout(() => {
+                    districtSelect.innerHTML = '<option value="">Select District</option>';
+                    districtSelect.disabled = false;
+
+                    districtData[selectedState].forEach(district => {
+                        const option = document.createElement("option");
+                        option.value = district;
+                        option.textContent = district;
+                        districtSelect.appendChild(option);
+                    });
+                }, 300);
+            } else {
+                districtSelect.innerHTML = '<option value="">Choose State first</option>';
+                districtSelect.disabled = true;
+            }
+        }
+
+        // --- CLOUD DATABASE SYSTEM ---
+        // MockAPI can be unreliable. Let's use CrudCrud which works instantly without signup.
+        // 1. Visit https://crudcrud.com
+        // 2. Copy the URL shown on the screen (e.g., https://crudcrud.com/api/1234567890abcdef)
+        // 3. Paste it here and keep "/citizens" at the end.
+        const CLOUD_API_URL = "https://crudcrud.com/api/f747d081f6074972ac07934d1ff693f7/citizens";
+        const CLOUD_GRIEVANCE_URL = CLOUD_API_URL.replace('/citizens', '/grievances');
+
+        // Post Data to Cloud on Submit
+        document.getElementById('masterProfileForm').addEventListener('submit', async(e) => {
+            e.preventDefault();
+            const submitBtn = e.target.querySelector('button[type="submit"]');
+            let originalText = submitBtn.innerHTML;
+
+            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving to Cloud...';
+            submitBtn.style.pointerEvents = 'none';
+
+            const userProfile = {
+                fullName: document.getElementById('fullName').value,
+                aadharNum: document.getElementById('aadharNum').value,
+                phoneNum: document.getElementById('phoneNum').value,
+                state: document.getElementById('state-select').value,
+                district: document.getElementById('district-select').value,
+                address: document.getElementById('fullAddress').value
+            };
+
+            try {
+                const response = await fetch(CLOUD_API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    body: JSON.stringify(userProfile)
+                });
+
+                if (!response.ok) throw new Error("Database endpoint not found or expired.");
+
+                document.querySelector('#successOverlay .success-card h2').innerText = "Verification Success!";
+                document.querySelector('#successOverlay .success-card p').innerText = "Your citizen profile has been successfully verified. You are now part of the Voice of India network.";
+                successOverlay.classList.add("active");
+                // Removed e.target.reset() so the user's data stays visible
+                originalText = 'Update Profile <i class="fas fa-edit"></i>';
+            } catch (error) {
+                console.error("Cloud Save Error:", error);
+                alert("Cloud Error: Make sure you have inserted a valid CrudCrud link in the CLOUD_API_URL variable.");
+            } finally {
+                submitBtn.innerHTML = originalText;
+                submitBtn.style.pointerEvents = 'auto';
+            }
+        });
+
+        // Function to close modal
+        function closeSuccessModal() {
+            successOverlay.classList.remove("active");
+            // Navigate back to home
+            sections.forEach(s => s.classList.remove("active-section"));
+            document.getElementById("home").classList.add("active-section");
+            navLinks.forEach(nav => nav.classList.remove("active"));
+            document.querySelector('[data-target="home"]').classList.add("active");
+        }
+
+        /* --- PAYMENT SECTION LOGIC --- */
+        const amountBtns = document.querySelectorAll('.amount-btn');
+        const methodBtns = document.querySelectorAll('.method-btn');
+        const customAmountContainer = document.getElementById('customAmountContainer');
+        const customAmountInput = document.getElementById('customAmountInput');
+        const payBtn = document.getElementById('payBtn');
+        let currentAmount = 500;
+        let currentMethod = 'upi';
+
+        function updatePayButton() {
+            payBtn.innerHTML = `Proceed to Pay ₹${currentAmount} <i class="fas fa-arrow-right"></i>`;
+        }
+
+        amountBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                amountBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                if (btn.classList.contains('custom-amt')) {
+                    customAmountContainer.style.display = 'block';
+                    currentAmount = customAmountInput.value || 100;
+                } else {
+                    customAmountContainer.style.display = 'none';
+                    currentAmount = btn.getAttribute('data-amount');
+                }
+                updatePayButton();
+            });
+        });
+
+        customAmountInput.addEventListener('input', (e) => {
+            currentAmount = e.target.value || 100;
+            updatePayButton();
+        });
+
+        methodBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                methodBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                document.querySelectorAll('.payment-details').forEach(el => el.style.display = 'none');
+                currentMethod = btn.getAttribute('data-method');
+                document.getElementById(`${currentMethod}-details`).style.display = 'block';
+            });
+        });
+
+        document.getElementById('paymentForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Provide visual feedback before opening the gateway
+            const originalText = payBtn.innerHTML;
+            payBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> Securely connecting...`;
+            payBtn.style.pointerEvents = 'none';
+
+            // Initialize Razorpay
+            var options = {
+                "key": "rzp_test_YOUR_KEY_HERE", // IMPORTANT: Replace with your Razorpay Test Key ID
+                "key": "rzp_live_YOUR_LIVE_KEY_HERE", // IMPORTANT: Replace with your actual Razorpay LIVE Key ID
+                "amount": currentAmount * 100, // Amount is in currency subunits (paise)
+                "currency": "INR",
+                "name": "Voice of India",
+                "description": "Support Our Initiative",
+                "handler": function(response) {
+                    // Success Callback
+                    document.querySelector('#successOverlay .success-card h2').innerText = "Payment Successful!";
+                    document.querySelector('#successOverlay .success-card p').innerText = `Thank you for contributing ₹${currentAmount}. Your Payment ID is ${response.razorpay_payment_id}`;
+                    successOverlay.classList.add("active");
+
+                    e.target.reset();
+                    amountBtns[0].click(); // reset selection to ₹500
+                },
+                "theme": {
+                    "color": "#003366"
+                }
+            };
+
+            var rzp = new Razorpay(options);
+
+            rzp.on('payment.failed', function(response) {
+                alert("Payment Failed: " + response.error.description);
+            });
+
+            setTimeout(() => {
+                rzp.open();
+
+                // Restore button state immediately after triggering the modal
+                payBtn.innerHTML = originalText;
+                payBtn.style.pointerEvents = 'auto';
+            }, 800);
+        });
+
+        /* --- OFFICIAL LOGIN & CLOUD FETCHING LOGIC --- */
+        const adminLoginBtn = document.getElementById('adminLoginBtn');
+        const adminPassword = document.getElementById('adminPassword');
+        const adminError = document.getElementById('admin-error');
+        const adminLoginBox = document.getElementById('admin-login-box');
+        const adminDashboard = document.getElementById('admin-dashboard');
+        const adminTableBody = document.getElementById('admin-table-body');
+        const adminGrievanceBody = document.getElementById('admin-grievance-body');
+        const refreshDataBtn = document.getElementById('refreshDataBtn');
+
+        adminLoginBtn.addEventListener('click', () => {
+            if (adminPassword.value === 'arpan1137') {
+                adminError.style.display = 'none';
+                adminLoginBox.style.display = 'none';
+                adminDashboard.style.display = 'block';
+                fetchAndDisplayUsers();
+            } else {
+                adminError.style.display = 'block';
+            }
+        });
+
+        async function fetchAndDisplayUsers() {
+            adminTableBody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding: 20px;"><i class="fas fa-spinner fa-spin"></i> Fetching citizens...</td></tr>';
+            adminGrievanceBody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 20px;"><i class="fas fa-spinner fa-spin"></i> Fetching grievances...</td></tr>';
+            try {
+                // 1. Fetch Citizens
+                const resCit = await fetch(CLOUD_API_URL);
+                if (!resCit.ok) throw new Error(`HTTP Error ${resCit.status}: Endpoint may have expired.`);
+                const users = await resCit.json();
+
+                if (!users || users.length === 0) {
+                    adminTableBody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Database is empty. No citizens registered.</td></tr>';
+                } else {
+                    adminTableBody.innerHTML = '';
+                    users.reverse().forEach(user => {
+                        adminTableBody.innerHTML += `
+                            <tr>
+                                <td><strong>${user.fullName || 'N/A'}</strong></td>
+                                <td>***${user.aadharNum || 'N/A'}</td>
+                                <td>${user.phoneNum || 'N/A'}</td>
+                                <td>${user.state || 'N/A'}</td>
+                                <td>${user.district || 'N/A'}</td>
+                                <td>${user.address || 'N/A'}</td>
+                            </tr>
+                        `;
+                    });
+                }
+
+                // 2. Fetch Grievances
+                const resGriev = await fetch(CLOUD_GRIEVANCE_URL);
+                const grievances = resGriev.ok ? await resGriev.json() : [];
+
+                if (!grievances || grievances.length === 0) {
+                    adminGrievanceBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">No grievances filed yet.</td></tr>';
+                } else {
+                    adminGrievanceBody.innerHTML = '';
+                    grievances.reverse().forEach(g => {
+                        const prioColor = g.prio === 'Critical' ? '#e53e3e' : (g.prio === 'Urgent' ? '#dd6b20' : '#38a169');
+                        adminGrievanceBody.innerHTML += `
+                            <tr>
+                                <td><strong>${g.id || 'N/A'}</strong></td>
+                                <td>${g.dept || 'N/A'}</td>
+                                <td>${g.subject || 'N/A'}</td>
+                                <td style="color: ${prioColor}; font-weight: bold;">${g.prio || 'N/A'}</td>
+                                <td><span style="background: #e2e8f0; padding: 4px 8px; border-radius: 4px; font-size: 0.8rem; color: #4a5568;">${g.status || 'Pending'}</span></td>
+                            </tr>
+                        `;
+                    });
+                }
+            } catch (error) {
+                console.error("Cloud Fetch Error:", error);
+                adminTableBody.innerHTML = `<tr><td colspan="6" style="text-align:center; color: #e53e3e; padding: 20px;"><b>Database Connection Failed</b><br><span style="font-size:0.9rem; color:#666;">The cloud database link is missing or expired.<br>Please go to <b>crudcrud.com</b>, get a new link, and update <code>CLOUD_API_URL</code> in your code.</span></td></tr>`;
+                adminGrievanceBody.innerHTML = `<tr><td colspan="5" style="text-align:center; color: #e53e3e;"><b>Failed to fetch Grievances</b></td></tr>`;
+            }
+        }
+
+        refreshDataBtn.addEventListener('click', fetchAndDisplayUsers);
+
+        // --- CSV EXPORT LOGIC ---
+        function exportTableToCSV(tableId, filename) {
+            const table = document.getElementById(tableId);
+            let csv = [];
+            for (let i = 0; i < table.rows.length; i++) {
+                let row = [],
+                    cols = table.rows[i].querySelectorAll("td, th");
+                for (let j = 0; j < cols.length; j++) {
+                    let data = cols[j].innerText.replace(/"/g, '""');
+                    row.push('"' + data + '"');
+                }
+                csv.push(row.join(","));
+            }
+            let csvFile = new Blob([csv.join("\n")], {
+                type: "text/csv"
+            });
+            let downloadLink = document.createElement("a");
+            downloadLink.download = filename;
+            downloadLink.href = window.URL.createObjectURL(csvFile);
+            downloadLink.style.display = "none";
+            document.body.appendChild(downloadLink);
+            downloadLink.click();
+            document.body.removeChild(downloadLink);
+        }
+
+        document.getElementById('exportCitizensBtn').addEventListener('click', () => exportTableToCSV('citizensTable', 'VoiceOfIndia_Citizens.csv'));
+        document.getElementById('exportGrievancesBtn').addEventListener('click', () => exportTableToCSV('grievancesTable', 'VoiceOfIndia_Grievances.csv'));
+
+        // --- IFRAME MODAL FIX & CLOUD SYNC ---
+        window.addEventListener('message', async(e) => {
+            if (e.data && e.data.type === 'SHOW_SUCCESS') {
+                // Background Cloud Sync for Grievances
+                if (e.data.payload) {
+                    try {
+                        await fetch(CLOUD_GRIEVANCE_URL, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(e.data.payload)
+                        });
+                    } catch (error) {
+                        console.error("Grievance Cloud Sync Failed", error);
+                    }
+                }
+
+                // Display the parent's beautifully centered success modal
+                document.querySelector('#successOverlay .success-card h2').innerText = "Report Submitted!";
+                document.querySelector('#successOverlay .success-card p').innerHTML = `Your report has been securely transmitted.<br><br>Your Tracking ID is: <strong style="font-size:1.2rem; color:#e53e3e;">${e.data.tid}</strong><br><br>Please save this ID to check updates later.`;
+
+                successOverlay.classList.add("active");
+
+                // Automatically reset the iframe form back to the start
+                const iframe = document.querySelector('.embedded-portal iframe');
+                if (iframe) iframe.src = iframe.src;
+            }
+        });
+    </script>
+
+</body>
+
+</html>
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NEWS SECTION | Live Portal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Poppins:wght@600;700;900&display=swap" rel="stylesheet">
+    <style>
+         :root {
+            --primary: #002D52;
+            --accent: #FF9933;
+            --success: #138808;
+            --bg: #F0F2F5;
+            --surface: #FFFFFF;
+            --text-main: #1A202C;
+            --text-muted: #718096;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        
+        * {
+            box-sizing: border-box;
+        }
+        
+        body {
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg);
+            color: var(--text-main);
+            overflow-x: hidden;
+        }
+        /* --- NAVIGATION --- */
+        
+        nav {
+            background: var(--surface);
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+            position: relative;
+            z-index: 1001;
+        }
+        
+        .logo {
+            font-family: 'Poppins', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 900;
+            color: var(--primary);
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+        
+        .logo span {
+            color: var(--accent);
+            margin-left: 5px;
+        }
+        
+        .live-badge {
+            background: rgba(19, 136, 8, 0.1);
+            color: var(--success);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .pulse {
+            width: 8px;
+            height: 8px;
+            background: var(--success);
+            border-radius: 50%;
+            animation: pulse-ring 1.5s infinite;
+        }
+        /* --- FIXED: RUNNING TEXT (TICKER) --- */
+        
+        .ticker-container {
+            background: #1a1a1a;
+            width: 100%;
+            overflow: hidden;
+            white-space: nowrap;
+            padding: 12px 0;
+            border-bottom: 3px solid var(--accent);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .ticker-wrapper {
+            display: inline-block;
+            padding-left: 100%;
+            /* Speed set to exactly 27 seconds */
+            animation: ticker-move 27s linear infinite;
+        }
+        
+        .ticker-wrapper:hover {
+            animation-play-state: paused;
+        }
+        
+        .ticker-item {
+            display: inline-block;
+            color: white;
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-right: 80px;
+        }
+        
+        .ticker-item b {
+            background: var(--accent);
+            color: black;
+            padding: 2px 8px;
+            border-radius: 3px;
+            margin-right: 10px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+        }
+        
+        @keyframes ticker-move {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-100%);
+            }
+        }
+        /* --- CONTENT AREA --- */
+        
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+        
+        .hero-card {
+            background: linear-gradient(135deg, var(--primary) 0%, #004a87 100%);
+            color: white;
+            border-radius: 24px;
+            padding: 50px 40px;
+            margin-bottom: 40px;
+            box-shadow: var(--shadow);
+        }
+        
+        .hero-tag {
+            background: var(--accent);
+            color: black;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-weight: 800;
+            font-size: 0.8rem;
+        }
+        
+        .hero-title {
+            font-size: 2.2rem;
+            margin: 15px 0;
+            font-family: 'Poppins';
+        }
+        
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+        
+        .card {
+            background: var(--surface);
+            border-radius: 15px;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow);
+        }
+        
+        .card-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            background: #e2e8f0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .card-content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            justify-content: space-between;
+        }
+        
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 10px;
+            line-height: 1.4;
+        }
+        
+        .card-desc {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 15px;
+        }
+        
+        .read-link {
+            text-decoration: none;
+            color: var(--accent);
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+        
+        .card-meta {
+            font-size: 0.8rem;
+            color: var(--accent);
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+        
+        .loading-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+        
+        @keyframes pulse-ring {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.3;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 1.6rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <a href="#" class="logo">NEWS<span>SECTION</span></a>
+        <div class="live-badge">
+            <div class="pulse"></div>
+            LIVE UPDATES
+        </div>
+    </nav>
+
+    <div class="ticker-container">
+        <div class="ticker-wrapper" id="ticker-js">
+            <div class="ticker-item"><b>Updating</b> Synchronizing headlines... Please wait...</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="hero-card">
+            <span class="hero-tag">FEATURED</span>
+            <h1 class="hero-title" id="hero-title">Connecting to News Feed...</h1>
+            <p id="hero-desc">The most important story of the hour will appear here.</p>
+        </div>
+
+        <h2 style="font-family: 'Poppins';">Latest News</h2>
+        <div class="news-grid" id="news-grid">
+        </div>
+    </div>
+
+    <script>
+        const RSS_URL = 'https://timesofindia.indiatimes.com/rssfeedstopstories.cms';
+        const API_URL = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(RSS_URL)}`;
+
+        async function fetchNews() {
+            const grid = document.getElementById('news-grid');
+            grid.innerHTML = '<div class="loading-state">Fetching latest news...</div>';
+
+            try {
+                const res = await fetch(API_URL);
+                const data = await res.json();
+                if (data.status === 'ok') {
+                    renderUI(data.items);
+                } else {
+                    throw new Error("Feed parsing error");
+                }
+            } catch (err) {
+                console.error("News Fetch Failed");
+                grid.innerHTML = '<div class="loading-state" style="color: #e53e3e;">Failed to load news. Please try again later.</div>';
+            }
+        }
+
+        function extractImage(item) {
+            if (item.thumbnail) return item.thumbnail;
+            if (item.enclosure && item.enclosure.link) return item.enclosure.link;
+            // Fallback: look for an img tag inside the HTML description
+            const match = item.description.match(/<img[^>]+src="([^">]+)"/);
+            return match ? match[1] : 'https://via.placeholder.com/400x200?text=News';
+        }
+
+        function renderUI(items) {
+            // Update Hero
+            document.getElementById('hero-title').textContent = items[0].title;
+            document.getElementById('hero-desc').textContent = items[0].description.replace(/<[^>]*>?/gm, '').trim().substring(0, 150) + '...';
+
+            // Update Running Text (Ticker)
+            const ticker = document.getElementById('ticker-js');
+            const tickerHTML = items.map(i => `<div class="ticker-item"><b>LATEST</b> ${i.title}</div>`).join('');
+            ticker.innerHTML = tickerHTML;
+
+            // Update Grid
+            const grid = document.getElementById('news-grid');
+            grid.innerHTML = '';
+            items.slice(1, 10).forEach(item => {
+                        const cleanDesc = item.description.replace(/<[^>]*>?/gm, '').trim().substring(0, 100) + '...';
+                        const imgSrc = extractImage(item);
+
+                        const pubDate = new Date(item.pubDate);
+                        const dateStr = isNaN(pubDate) ? '' : pubDate.toLocaleDateString('en-IN', {
+                            month: 'short',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        });
+
+                        grid.innerHTML += `
+                    <div class="card">
+                        <img src="${imgSrc}" class="card-img" alt="News Cover" onerror="this.src='https://via.placeholder.com/400x200?text=News'">
+                        <div class="card-content">
+                            <div>
+                                ${dateStr ? `<div class="card-meta">${dateStr}</div>` : ''}
+                                <h3 class="card-title">${item.title}</h3>
+                                <p class="card-desc">${cleanDesc}</p>
+                            </div>
+                            <a href="${item.link}" target="_blank" class="read-link">Full Story →</a>
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        fetchNews();
+        // Refresh every 30 minutes
+        setInterval(fetchNews, 30 * 60 * 1000);
+    </script>
+</body>
+
+</html>
